@@ -2,42 +2,59 @@ import java.util.Scanner;
  
 public class Start {
 	public static void main(String args[]) {
+		//Initialize Player and the starting room. 
 		Player player = new Player();
 		Room room = new Room();
-		room.setRoomName("Bedroom");
+		
+		//The player wakes up in a bedroom
+		room.setRoomName("bedroom");
 		
 		System.out.print("Welcome. \n");
 		System.out.print("What is your name? \n");
 		
+		//Get and set the player's name
 		Scanner userInput = new Scanner(System.in);
 		String playerName = userInput.nextLine();
-		
 		player.setName(playerName);
 		
+		//Start game play loop until the user quits
 		while (true) {
 			whatToDo(player, room, userInput);
 		}
 	}
 	
 	private static void whatToDo(Player player, Room room, Scanner userInput){
-		System.out.print("What would you like to do, " + player.getName() + "?\n");
-		System.out.print("Options: \"Look Around\", \"Check Inventory\", \"Quit\" \n");
-
-		String event = userInput.nextLine();
+		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Quit"};
 		
-		switch (event.trim().toUpperCase()) {
-		case "LOOK AROUND":
-			player.lookAround(room);
-			break;
-		case "CHECK INVENTORY": 
-			player.checkInventory();
-			break;
-		case "QUIT":
-			closeGame(userInput, player);
-			
-		default:
-			System.out.print("Input was not recognized. \n");
+		System.out.print("What would you like to do, " + player.getName() + "?\n");
+		System.out.print("Options: \"Look Around\", \"Check Inventory\", \"Examine [Item]\", \"Quit\" \n");
+
+		String event = userInput.nextLine().trim().toUpperCase();
+		
+		if (event.contains("EXAMINE")) {
+			String currItemName = event.substring(8).toLowerCase();
+			Item currItem = new Item(currItemName);
+			currItem.examine();
+		} else {
+			switch (event) {
+				case "LOOK AROUND":
+					//looks for items in the room
+					player.lookAround(room);
+					break;
+				case "CHECK INVENTORY": 
+					//checks what is in the player's hands
+					player.checkInventory();
+					break;
+				case "QUIT":
+					//close the game
+					closeGame(userInput, player);
+				default:
+					//handle invalid input
+					System.out.print("Input was not recognized. \n");
+			}
 		}
+		
+
 	}
 	
 	private static void closeGame(Scanner userInput, Player player) {

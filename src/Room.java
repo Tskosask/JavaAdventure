@@ -2,10 +2,12 @@
 public class Room {
 	protected String name;
 	protected String size = randomRoomSize();
-	protected String[] items = {};
+	Item screwdriver = new Item("screwdriver");
 	
-	public String[] showItems() {
-		return this.items;
+	protected Item[] items = { screwdriver };
+	
+	public Item[] showItems() {
+		return items;
 	}
 	
 	protected void setRoomName(String roomName) {

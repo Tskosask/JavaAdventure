@@ -5,19 +5,20 @@ public class Player {
 	protected String name;
 	
 	public void lookAround(Room room){
-		String[] roomItems = room.showItems();
+		Item[] roomItems = room.showItems();
 		System.out.print("You are standing in a " + room.size + " " + room.name + ". \n");
 		
 		if (roomItems.length > 0) {
 			System.out.print("You see: ");
 
 			for(int i = 0; i < roomItems.length; i++) {
-				System.out.print(roomItems[i]);
+				System.out.print(roomItems[i].name);
 			}			
 		} else {
-			System.out.print("You don't see anything of importance. \n");
+			System.out.print("You don't see anything of importance.");
 		}
 	
+		System.out.print("\n");
 	}
 	
 	public void checkInventory() {
