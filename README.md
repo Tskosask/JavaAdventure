@@ -1,0 +1,2 @@
+The purpose of this project is to build a text-base exploration adventure. 
+The development will focus on the understanding of class-based programming while enveloping the user in a semi-randomized environment.
