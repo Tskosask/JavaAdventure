@@ -31,13 +31,23 @@ public class Room {
 		}
 	}
 
-	protected void removeItem(Item item) {
-		Item[] arrayCopy = new Item[items.length -1];
+	protected void removeItem(Item itemToRemove) {
+		Item[] arrayCopy = new Item[items.length - 1];
 		for(int i = 0, j = 0; i < items.length; i++) {
-			if (item != items[i]) {
+			if (itemToRemove != items[i]) {
 				arrayCopy[j++] = items[i];
 			}
 		}
+		items = arrayCopy;
+	}
+
+	public void addItem(Item itemToAdd) {
+		Item[] arrayCopy = new Item[items.length + 1];
+		for(int i = 0; i < items.length ; i++) {
+			arrayCopy[i] = items[i];
+		}
+		arrayCopy[items.length] = itemToAdd;
+		
 		items = arrayCopy;
 	}
 

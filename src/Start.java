@@ -35,7 +35,7 @@ public class Start {
 		System.out.print("Options:");
 
 		//output all of the available actions
-		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Quit"};
+		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Drop [Item]", "Quit"};
 		for(String action : actionArray) {
 			System.out.print(" \"" + action + "\"");
 		}
@@ -46,7 +46,7 @@ public class Start {
 		
 		//handle user input
 		if (event.contains("EXAMINE")) {
-			Item currItem = checkForItemNearby(room, player, event.substring(8).toLowerCase());
+			Item currItem = returnIfItemNearby(room, player, event.substring(8).toLowerCase());
 				
 			//if the item is in the room then you can examine it
 			if (currItem != null) {
@@ -57,7 +57,7 @@ public class Start {
 			
 		} else if (event.contains("GRAB")){
 			String itemName = event.substring(5).toLowerCase();
-			Item currItem = checkForItemInRoom(room, itemName);
+			Item currItem = returnIfItemInRoom(room, itemName);
 			
 			//if the item is in the room then you can grab it
 			if (currItem != null) {
@@ -74,7 +74,15 @@ public class Start {
 			} else {
 				System.out.print("You cannot grab something that is not there. \n");
 			}
+		} else if (event.contains("DROP")) {
+			String itemName = event.substring(5).toLowerCase();
 			
+			if (player.checkForItemInHand(itemName)) {
+				Item currItem = returnIfItemInHand(player, itemName);
+				player.dropItem(player, room, currItem);
+			} else {
+				System.out.print("You are not holding that. \n");
+			}
 			
 		} else {
 			switch (event) {
@@ -96,27 +104,24 @@ public class Start {
 		}
 	}
 	
-	private static Item checkForItemNearby(Room room, Player player, String currItemName) {
+	private static Item returnIfItemNearby(Room room, Player player, String currItemName) {
 		//look for the item in the room
-		Item itemFound = checkForItemInRoom(room, currItemName);
+		Item itemFound = returnIfItemInRoom(room, currItemName);
 		//if you don't find the item in the room...
 		if (itemFound == null) {
 			//Check here to see if the item is in your hands			
-			Item[] invItems = player.showInventory();
-			if (invItems.length > 0) {
-				for(Item checkItem : invItems) {
-					if (checkItem != null && currItemName.equals(checkItem.name)) {
-						return checkItem;
-					}
-				}	
-			}
-		} else { //return the found item
+			itemFound = returnIfItemInHand(player, currItemName);
+		} 
+		
+		if (itemFound != null) { //return the found item
 			return itemFound;
+		} else {
+			return null;
+
 		}
-		return null;
 	}
 	
-	private static Item checkForItemInRoom(Room room, String currItemName) {
+	private static Item returnIfItemInRoom(Room room, String currItemName) {
 		//Check here to see if the item is in the room			
 		Item[] roomItems = room.showItems();
 		if (roomItems.length > 0) {
@@ -126,6 +131,18 @@ public class Start {
 				}
 			}	
 		} 
+		return null;
+	}
+	
+	private static Item returnIfItemInHand(Player player, String currItemName) {
+		Item[] invItems = player.showInventory();
+		if (invItems.length > 0) {
+			for(Item checkItem : invItems) {
+				if (checkItem != null && currItemName.equals(checkItem.name)) {
+					return checkItem;
+				}
+			}	
+		}
 		return null;
 	}
 	

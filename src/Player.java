@@ -51,6 +51,10 @@ public class Player {
 		this.inventory[handIndex] = itemToAdd;
 	}
 	
+	private void removeItemFromInv(int invIndex) {
+		inventory[invIndex] = null;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 		System.out.print("Nice to meet you, " + this.name + "\n");
@@ -61,10 +65,49 @@ public class Player {
 	}
 
 	public boolean checkForItemInHand(String itemName) {
-		if (itemName.toLowerCase().equals(inventory[0].name.toLowerCase()) || itemName.toLowerCase().equals(inventory[1].name.toLowerCase())) {
+		if (inventory[0] != null && itemName.toLowerCase().equals(inventory[0].name.toLowerCase())) {
+			return true;
+		}
+		if (inventory[1] != null && itemName.toLowerCase().equals(inventory[1].name.toLowerCase())) {
 			return true;
 		}
 		return false;
+	}
+
+	private int checkWhichHandItemIsIn(Item item) {
+		if (inventory[0] != null && item == inventory[0]) {
+			return 0;
+		}
+		if (inventory[1] != null && item == inventory[1]) {
+			return 1;
+		}
+		return -1;
+	}
+	
+	
+	public void dropItem(Player player, Room room, Item itemToDrop) {
+		//check which hand it is in
+		int handIndex = checkWhichHandItemIsIn(itemToDrop);
+		
+		//remove the item from the hand
+		if (handIndex != -1) {
+			removeItemFromInv(handIndex);
+		} else {
+			//handle error if item was not found in the inventory
+			System.out.print("An error has occurred when trying to drop the item.");
+			return;
+		}
+		
+		//add the item to the room
+		room.addItem(itemToDrop);
+		
+		String handString = "right";
+		if (handIndex == 0) {
+			handString = "left";
+		}
+		
+		System.out.print("Dropped the " + itemToDrop.name + " that was in your " + handString + " hand. \n");
+		
 	}
 	
 	
