@@ -30,25 +30,23 @@ public class Start {
 	}
 	
 	private static void whatToDo(Player player, Room room, Scanner userInput){
-		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Quit"};
 		
 		System.out.print("What would you like to do, " + player.getName() + "?\n");
-		System.out.print("Options: \"Look Around\", \"Check Inventory\", \"Examine [Item]\", \"Quit\" \n");
+		System.out.print("Options:");
 
+		//output all of the available actions
+		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Quit"};
+		for(String action : actionArray) {
+			System.out.print(" \"" + action + "\"");
+		}
+		System.out.print("\n");
+
+		//get user input
 		String event = userInput.nextLine().trim().toUpperCase();
 		
+		//handle user input
 		if (event.contains("EXAMINE")) {
-			Item currItem = null;
-			String currItemName = event.substring(8).toLowerCase();
-			//Check here to see if the item is in the room			
-			Item[] roomItems = room.showItems();
-			if (roomItems.length > 0) {
-				for(int i = 0; i < roomItems.length; i++) {
-					if (currItemName.equals(roomItems[i].name)) {
-						currItem = roomItems[i];
-					}
-				}	
-			}
+			Item currItem = checkForItemInRoom(room, event.substring(8).toLowerCase());
 				
 			//if the item is in the room then you can examine it
 			if (currItem != null) {
@@ -56,6 +54,18 @@ public class Start {
 			} else {
 				System.out.print("You do not see that item. \n");
 			}
+			
+		} else if (event.contains("GRAB")){
+			Item currItem = checkForItemInRoom(room, event.substring(5).toLowerCase());
+			
+			//if the item is in the room then you can examine it
+			if (currItem != null) {
+				currItem.grab();
+			} else {
+				System.out.print("You cannot grab something that is not there. \n");
+			}
+			
+			
 		} else {
 			switch (event) {
 				case "LOOK AROUND":
@@ -76,6 +86,19 @@ public class Start {
 		}
 		
 
+	}
+	
+	private static Item checkForItemInRoom(Room room, String currItemName) {
+		//Check here to see if the item is in the room			
+		Item[] roomItems = room.showItems();
+		if (roomItems.length > 0) {
+			for(Item checkItem : roomItems) {
+				if (currItemName.equals(checkItem.name)) {
+					return checkItem;
+				}
+			}	
+		}
+		return null;
 	}
 	
 	private static void closeGame(Scanner userInput, Player player) {

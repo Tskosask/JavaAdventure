@@ -1,6 +1,6 @@
 
 public class Player {
-	protected String[] inventory  = {"Nothing", "Nothing"};
+	public String[] inventory  = {"Nothing", "Nothing"};
 	
 	protected String name = "Player";
 	
@@ -29,7 +29,7 @@ public class Player {
 	
 	public void setName(String name) {
 		this.name = name;
-		System.out.print("Nice to meet you, " + this.name);
+		System.out.print("Nice to meet you, " + this.name + "\n");
 	}
 	
 	public String getName( ) {
