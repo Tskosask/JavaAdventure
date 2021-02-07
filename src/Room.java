@@ -31,5 +31,15 @@ public class Room {
 		}
 	}
 
+	protected void removeItem(Item item) {
+		Item[] arrayCopy = new Item[items.length -1];
+		for(int i = 0, j = 0; i < items.length; i++) {
+			if (item != items[i]) {
+				arrayCopy[j++] = items[i];
+			}
+		}
+		items = arrayCopy;
+	}
+
 }
 

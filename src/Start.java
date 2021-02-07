@@ -12,7 +12,7 @@ public class Start {
 		
 		System.out.print("Welcome. \n");
 		
-		askPlayerForName(player, userInput);
+//		askPlayerForName(player, userInput);
 		
 		//Start game play loop until the user quits
 		while (true) {
@@ -24,7 +24,7 @@ public class Start {
 		System.out.print("What is your name? \n");
 		
 		//Get and set the player's name
-		String playerName = userInput.nextLine();
+		String playerName = userInput.nextLine().trim();
 		player.setName(playerName);
 
 	}
@@ -60,7 +60,12 @@ public class Start {
 			
 			//if the item is in the room then you can examine it
 			if (currItem != null) {
-				currItem.grab();
+				//check if it is a window to determine what grab method to use
+				if (currItem.getClass() == Window.class) {
+					currItem.grab();
+				} else {
+					currItem.grab(player, room, userInput);
+				}
 			} else {
 				System.out.print("You cannot grab something that is not there. \n");
 			}
@@ -103,7 +108,6 @@ public class Start {
 	
 	private static void closeGame(Scanner userInput, Player player) {
 		System.out.print("Goodbye, " + player.getName());
-		userInput.close();
 		System.exit(0);
 	}
 }
