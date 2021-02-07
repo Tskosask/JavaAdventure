@@ -2,7 +2,7 @@
 public class Player {
 	protected String[] inventory  = {"Nothing", "Nothing"};
 	
-	protected String name;
+	protected String name = "Player";
 	
 	public void lookAround(Room room){
 		Item[] roomItems = room.showItems();
@@ -12,7 +12,7 @@ public class Player {
 			System.out.print("You see: ");
 
 			for(int i = 0; i < roomItems.length; i++) {
-				System.out.print(roomItems[i].name);
+				System.out.print(roomItems[i].name + ", ");
 			}			
 		} else {
 			System.out.print("You don't see anything of importance.");
@@ -29,7 +29,7 @@ public class Player {
 	
 	public void setName(String name) {
 		this.name = name;
-		System.out.print("Hello, " + this.name + ". \n");
+		System.out.print("Nice to meet you, " + this.name);
 	}
 	
 	public String getName( ) {

@@ -4,7 +4,9 @@ public class Room {
 	protected String size = randomRoomSize();
 	Item screwdriver = new Item("screwdriver");
 	
-	protected Item[] items = { screwdriver };
+	Window aWindow = new Window("window");
+	
+	protected Item[] items = { screwdriver, aWindow };
 	
 	public Item[] showItems() {
 		return items;

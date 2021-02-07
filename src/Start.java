@@ -5,22 +5,28 @@ public class Start {
 		//Initialize Player and the starting room. 
 		Player player = new Player();
 		Room room = new Room();
-		
+		Scanner userInput = new Scanner(System.in);
+
 		//The player wakes up in a bedroom
 		room.setRoomName("bedroom");
 		
 		System.out.print("Welcome. \n");
-		System.out.print("What is your name? \n");
 		
-		//Get and set the player's name
-		Scanner userInput = new Scanner(System.in);
-		String playerName = userInput.nextLine();
-		player.setName(playerName);
+		askPlayerForName(player, userInput);
 		
 		//Start game play loop until the user quits
 		while (true) {
 			whatToDo(player, room, userInput);
 		}
+	}
+	
+	private static void askPlayerForName(Player player, Scanner userInput) {
+		System.out.print("What is your name? \n");
+		
+		//Get and set the player's name
+		String playerName = userInput.nextLine();
+		player.setName(playerName);
+
 	}
 	
 	private static void whatToDo(Player player, Room room, Scanner userInput){
@@ -32,9 +38,24 @@ public class Start {
 		String event = userInput.nextLine().trim().toUpperCase();
 		
 		if (event.contains("EXAMINE")) {
+			Item currItem = null;
 			String currItemName = event.substring(8).toLowerCase();
-			Item currItem = new Item(currItemName);
-			currItem.examine();
+			//Check here to see if the item is in the room			
+			Item[] roomItems = room.showItems();
+			if (roomItems.length > 0) {
+				for(int i = 0; i < roomItems.length; i++) {
+					if (currItemName.equals(roomItems[i].name)) {
+						currItem = roomItems[i];
+					}
+				}	
+			}
+				
+			//if the item is in the room then you can examine it
+			if (currItem != null) {
+				currItem.examine();
+			} else {
+				System.out.print("You do not see that item. \n");
+			}
 		} else {
 			switch (event) {
 				case "LOOK AROUND":

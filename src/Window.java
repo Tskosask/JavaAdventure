@@ -10,7 +10,7 @@ public class Window extends Item{
 		//Get the user's location
 		//Determine weather
 		
-		System.out.print("The sun is shining on a freshly cut lawn.");
+		System.out.print("The sun is shining on a freshly cut lawn. \n");
 		
 	}
 	
