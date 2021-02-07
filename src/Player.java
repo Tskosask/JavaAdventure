@@ -43,6 +43,10 @@ public class Player {
 
 	}
 	
+	public Item[] showInventory() {
+		return inventory;
+	}
+	
 	public void addToInventory(Item itemToAdd, int handIndex) {
 		this.inventory[handIndex] = itemToAdd;
 	}
@@ -54,6 +58,13 @@ public class Player {
 	
 	public String getName( ) {
 		return this.name;
+	}
+
+	public boolean checkForItemInHand(String itemName) {
+		if (itemName.toLowerCase().equals(inventory[0].name.toLowerCase()) || itemName.toLowerCase().equals(inventory[1].name.toLowerCase())) {
+			return true;
+		}
+		return false;
 	}
 	
 	

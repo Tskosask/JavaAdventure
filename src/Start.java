@@ -12,7 +12,7 @@ public class Start {
 		
 		System.out.print("Welcome. \n");
 		
-//		askPlayerForName(player, userInput);
+		askPlayerForName(player, userInput);
 		
 		//Start game play loop until the user quits
 		while (true) {
@@ -46,7 +46,7 @@ public class Start {
 		
 		//handle user input
 		if (event.contains("EXAMINE")) {
-			Item currItem = checkForItemInRoom(room, event.substring(8).toLowerCase());
+			Item currItem = checkForItemNearby(room, player, event.substring(8).toLowerCase());
 				
 			//if the item is in the room then you can examine it
 			if (currItem != null) {
@@ -56,9 +56,10 @@ public class Start {
 			}
 			
 		} else if (event.contains("GRAB")){
-			Item currItem = checkForItemInRoom(room, event.substring(5).toLowerCase());
+			String itemName = event.substring(5).toLowerCase();
+			Item currItem = checkForItemInRoom(room, itemName);
 			
-			//if the item is in the room then you can examine it
+			//if the item is in the room then you can grab it
 			if (currItem != null) {
 				//check if it is a window to determine what grab method to use
 				if (currItem.getClass() == Window.class) {
@@ -66,6 +67,10 @@ public class Start {
 				} else {
 					currItem.grab(player, room, userInput);
 				}
+			} else if (player.checkForItemInHand(itemName)) {
+				//check if the user is already holding the item
+				System.out.print("You are already holding that. \n");
+			
 			} else {
 				System.out.print("You cannot grab something that is not there. \n");
 			}
@@ -89,8 +94,26 @@ public class Start {
 					System.out.print("Input was not recognized. \n");
 			}
 		}
-		
-
+	}
+	
+	private static Item checkForItemNearby(Room room, Player player, String currItemName) {
+		//look for the item in the room
+		Item itemFound = checkForItemInRoom(room, currItemName);
+		//if you don't find the item in the room...
+		if (itemFound == null) {
+			//Check here to see if the item is in your hands			
+			Item[] invItems = player.showInventory();
+			if (invItems.length > 0) {
+				for(Item checkItem : invItems) {
+					if (checkItem != null && currItemName.equals(checkItem.name)) {
+						return checkItem;
+					}
+				}	
+			}
+		} else { //return the found item
+			return itemFound;
+		}
+		return null;
 	}
 	
 	private static Item checkForItemInRoom(Room room, String currItemName) {
@@ -102,7 +125,7 @@ public class Start {
 					return checkItem;
 				}
 			}	
-		}
+		} 
 		return null;
 	}
 	
