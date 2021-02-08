@@ -1,27 +1,22 @@
 
 public class Room {
+	protected String roomId;
 	protected String name;
 	protected String size = randomRoomSize();
-	Item screwdriver = new Item("screwdriver", true, "It is a flathead screwdriver with a black and yellow handle.");
-	Item bed = new Item("bed", false, "It is a bed with white and blue bedding. It looks comfortable.");
-	Item doorKey = new Item("key", true, "It is a standard brass key. It could be useful.");
+	protected Item[] items;
 	
-	AnimateItem cat = new AnimateItem("cat", "It is an adorable cat. So long as you don't touch it.", "The cat is so soft, but it hisses and bites at you.", "Meow.");
-	Window aWindow = new Window("window");
-	
-	
-	protected Item[] items = { screwdriver, bed, aWindow, doorKey, cat};
-	
+	public Room(String roomId, String roomName, Item[] roomItems) {
+		this.roomId = roomId;
+		this.name = roomName;
+		this.items = roomItems;
+	}
+
 	public Item[] showItems() {
 		return items;
 	}
 	
 	protected void setRoomName(String roomName) {
 		this.name = roomName;
-	}
-	
-	protected Room getRoom() {
-		return this;
 	}
 
 	private String randomRoomSize() {
