@@ -14,10 +14,6 @@ public class Room {
 	public Item[] showItems() {
 		return items;
 	}
-	
-	protected void setRoomName(String roomName) {
-		this.name = roomName;
-	}
 
 	private String randomRoomSize() {
 		double tempNum = Math.random();
@@ -46,6 +42,19 @@ public class Room {
 		arrayCopy[items.length] = itemToAdd;
 		
 		items = arrayCopy;
+	}
+	
+	
+	protected Item returnIfItemInRoom(String currItemName) {
+		//Check here to see if the item is in the room			
+		if (items.length > 0) {
+			for(Item checkItem : items) {
+				if (currItemName.equals(checkItem.name)) {
+					return checkItem;
+				}
+			}	
+		} 
+		return null;
 	}
 
 }
