@@ -79,7 +79,7 @@ public class Start {
 			
 			if (player.checkForItemInHand(itemName)) {
 				Item currItem = returnIfItemInHand(player, itemName);
-				player.dropItem(player, room, currItem);
+				player.dropItem(room, currItem);
 			} else {
 				System.out.print("You are not holding that. \n");
 			}

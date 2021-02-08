@@ -4,11 +4,12 @@ public class Room {
 	protected String size = randomRoomSize();
 	Item screwdriver = new Item("screwdriver", true, "It is a flathead screwdriver with a black and yellow handle.");
 	Item bed = new Item("bed", false, "It is a bed with white and blue bedding. It looks comfortable.");
+	Item doorKey = new Item("key", true, "It is a standard brass key. It could be useful.");
 	
 	Window aWindow = new Window("window");
 	
 	
-	protected Item[] items = { screwdriver, bed, aWindow };
+	protected Item[] items = { screwdriver, bed, aWindow, doorKey};
 	
 	public Item[] showItems() {
 		return items;

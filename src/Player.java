@@ -47,7 +47,15 @@ public class Player {
 		return inventory;
 	}
 	
-	public void addToInventory(Item itemToAdd, int handIndex) {
+	public void addToInventory(Item itemToAdd, int handIndex, Room room) {
+		//check if the inventory spot is empty
+		if (inventory[handIndex] != null) {
+			//if it is not, drop the item first
+			dropItem(room, inventory[handIndex]);
+		}
+		
+		
+		//add item to inventory
 		this.inventory[handIndex] = itemToAdd;
 	}
 	
@@ -85,7 +93,7 @@ public class Player {
 	}
 	
 	
-	public void dropItem(Player player, Room room, Item itemToDrop) {
+	public void dropItem(Room room, Item itemToDrop) {
 		//check which hand it is in
 		int handIndex = checkWhichHandItemIsIn(itemToDrop);
 		
@@ -106,7 +114,7 @@ public class Player {
 			handString = "left";
 		}
 		
-		System.out.print("Dropped the " + itemToDrop.name + " that was in your " + handString + " hand. \n");
+		System.out.print("You drop the " + itemToDrop.name + " that was in your " + handString + " hand. \n");
 		
 	}
 	

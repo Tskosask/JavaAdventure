@@ -25,14 +25,14 @@ public class Item {
 			String handChoice = userInput.nextLine().trim().toLowerCase();
 
 			if (handChoice.contains("left") || handChoice.equals("l")) {
+				player.addToInventory(this, 0, room);
+				room.removeItem(this);
 				System.out.print("You grab the " + this.name + " in your left hand. \n");
-				player.addToInventory(this, 0);
-				room.removeItem(this);
-				
+
 			} else if (handChoice.contains("right") || handChoice.equals("r")) {
-				System.out.print("You grab the " + this.name + " in your right hand. \n");
-				player.addToInventory(this, 1);
+				player.addToInventory(this, 1, room);
 				room.removeItem(this);
+				System.out.print("You grab the " + this.name + " in your right hand. \n");
 
 			} else {
 				System.out.print("You decide to not grab the " + this.name + ". \n");
