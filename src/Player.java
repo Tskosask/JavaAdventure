@@ -27,8 +27,8 @@ public class Player {
 	}
 	
 	public void checkInventory() {
-		String leftItem = "Nothing";
-		String rightItem = "Nothing";
+		String leftItem = "nothing";
+		String rightItem = "nothing";
 
 		if (inventory[0] != null) {
 			leftItem = inventory[0].name;

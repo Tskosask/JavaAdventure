@@ -35,9 +35,10 @@ public class Start {
 		System.out.print("Options:");
 
 		//output all of the available actions
-		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Drop [Item]", "Talk [Item]", "Quit"};
-		for(String action : actionArray) {
-			System.out.print(" \"" + action + "\"");
+		Action[] actionArray = new Actions().buildActionArray();
+			
+		for(Action action : actionArray) {
+			System.out.print(" \"" + action.actionName + "\"");
 		}
 		System.out.print("\n");
 
