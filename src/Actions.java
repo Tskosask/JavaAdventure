@@ -1,6 +1,6 @@
 
 public class Actions {
-		
+	public Action[] actions;
 	
 	public Action[] buildActionArray() {
 		//This will build an array with relevant actions
@@ -17,10 +17,16 @@ public class Actions {
 		String[] tStrArr = {"Talk"};
 		Action talk = new Action("Talk [Item]", tStrArr, "You can communicate with some items/beings with this action. Ex. \"Talk Marvin\"");
 		String[] hStrArr = {"Help"};
-		Action help = new Action("Help [Item]", hStrArr, "Asking for help with the help action is a little meta isn't it? This will show you the help text for an action. Ex. \"Help Grab\"");
+		Action help = new Action("Help [Action]", hStrArr, "Asking for help with the help action is a little meta isn't it? This will show you the help text for an action. Ex. \"Help Grab\"");
+		String[] qStrArr = {"Quit", "Exit", "Stop"};
+		Action quit = new Action("Quit", qStrArr, "This will quit the adventure.");
 	
-		Action[] actions = {lookAround, checkInv, examine, grab, drop, talk, help}; 
+		Action[] tmpActions = {lookAround, checkInv, examine, grab, drop, talk, help, quit};
+		actions = tmpActions;
 		return actions;
 		
 	}
+	
+	
+	
 }

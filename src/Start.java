@@ -46,7 +46,16 @@ public class Start {
 		String event = userInput.nextLine().trim().toUpperCase();
 		
 		//handle user input
-		if (event.contains("EXAMINE")) {
+		if (event.contains("HELP")) {
+			//print out the action's help text
+			String currActionName = event.substring(5).toLowerCase();
+			Action currAction = actionArray[0].getActionFromPhrase(currActionName, actionArray);
+			if (currAction != null) {
+				System.out.print(currAction.helpText + " \n");
+			} else {
+				System.out.print("That is not a valid action that I can help with. \n");
+			}
+		} else if (event.contains("EXAMINE")) {
 			Item currItem = returnIfItemNearby(room, player, event.substring(8).toLowerCase());
 				
 			//if the item is in the room then you can examine it
