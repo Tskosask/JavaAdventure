@@ -4,11 +4,14 @@ public class Start {
 	public static void main(String args[]) {
 		//Initialize Player and the starting room. 
 		Player player = new Player();
-		Room room = new Room();
+		Rooms Rooms = new Rooms();
+		Rooms.buildRoomsMap();
+		Room[] roomMap = Rooms.getRoomMap();
+		//The player wakes up in bedroom1
+		Room room = roomMap[0];
+		
 		Scanner userInput = new Scanner(System.in);
 
-		//The player wakes up in a bedroom
-		room.setRoomName("bedroom");
 		
 		System.out.print("Welcome. \n");
 		
@@ -19,7 +22,7 @@ public class Start {
 			whatToDo(player, room, userInput);
 		}
 	}
-	
+
 	private static void askPlayerForName(Player player, Scanner userInput) {
 		System.out.print("What is your name? \n");
 		
