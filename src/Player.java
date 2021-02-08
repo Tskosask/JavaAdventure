@@ -82,6 +82,15 @@ public class Player {
 		return false;
 	}
 
+	protected Item returnIfItemInHand(String currItemName) {
+		for(Item checkItem : inventory) {
+			if (checkItem != null && currItemName.equals(checkItem.name)) {
+				return checkItem;
+			}
+		}	
+		return null;
+	}
+	
 	private int checkWhichHandItemIsIn(Item item) {
 		if (inventory[0] != null && item == inventory[0]) {
 			return 0;
