@@ -6,10 +6,11 @@ public class Room {
 	Item bed = new Item("bed", false, "It is a bed with white and blue bedding. It looks comfortable.");
 	Item doorKey = new Item("key", true, "It is a standard brass key. It could be useful.");
 	
+	AnimateItem cat = new AnimateItem("cat", "It is an adorable cat. So long as you don't touch it.", "The cat is so soft, but it hisses and bites at you.", "Meow.");
 	Window aWindow = new Window("window");
 	
 	
-	protected Item[] items = { screwdriver, bed, aWindow, doorKey};
+	protected Item[] items = { screwdriver, bed, aWindow, doorKey, cat};
 	
 	public Item[] showItems() {
 		return items;

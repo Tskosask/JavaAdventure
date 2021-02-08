@@ -46,6 +46,10 @@ public class Item {
 	protected void grab() {
 		System.out.print("You grab the " + this.name + ", but nothing interesting happens. \n");
 	}
+
+	protected void talk() {
+		System.out.print("You look like a crazy person trying to talk to the " + this.name + ". \n" );
+	}
 	
 	
 }

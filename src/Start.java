@@ -35,7 +35,7 @@ public class Start {
 		System.out.print("Options:");
 
 		//output all of the available actions
-		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Drop [Item]", "Quit"};
+		String[] actionArray = {"Look Around", "Check Inventory", "Examine [Item]", "Grab [Item]", "Drop [Item]", "Talk [Item]", "Quit"};
 		for(String action : actionArray) {
 			System.out.print(" \"" + action + "\"");
 		}
@@ -62,10 +62,10 @@ public class Start {
 			//if the item is in the room then you can grab it
 			if (currItem != null) {
 				//check if it is a window to determine what grab method to use
-				if (currItem.getClass() == Window.class) {
-					currItem.grab();
-				} else {
+				if (currItem.getClass() == Item.class) {
 					currItem.grab(player, room, userInput);
+				} else {
+					currItem.grab();
 				}
 			} else if (player.checkForItemInHand(itemName)) {
 				//check if the user is already holding the item
@@ -82,6 +82,17 @@ public class Start {
 				player.dropItem(room, currItem);
 			} else {
 				System.out.print("You are not holding that. \n");
+			}
+			
+			
+		} else if (event.contains("TALK")) {
+			Item currItem = returnIfItemNearby(room, player, event.substring(5).toLowerCase());
+			
+			//if the item is in the room then you can examine it
+			if (currItem != null) {
+				currItem.talk();
+			} else {
+				System.out.print("You do not see that item. \n");
 			}
 			
 		} else {
