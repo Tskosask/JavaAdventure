@@ -9,7 +9,7 @@ public class Start {
 		Rooms.buildRoomsMap();
 		Room[] roomMap = Rooms.getRoomMap();
 		//The player wakes up in bedroom1
-		Room room = roomMap[0];
+		player.setCurrentRoom(roomMap[0]);
 		
 		Scanner userInput = new Scanner(System.in);
 
@@ -20,8 +20,8 @@ public class Start {
 		
 		//Start game play loop until the user quits
 		while (true) {
-			TimeUnit.SECONDS.sleep(2);
-			whatToDo(player, room, userInput);
+			TimeUnit.SECONDS.sleep(1);
+			whatToDo(player, player.getCurrentRoom(), userInput);
 		}
 	}
 

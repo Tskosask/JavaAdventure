@@ -1,78 +1,86 @@
 
 public class Player {
-	protected Item[] inventory  = {null, null};
-	
+	protected Item[] inventory = { null, null };
+
 	protected String name = "Player";
-	
-	public void lookAround(Room room){
+	protected Room currentRoom;
+
+	protected void setCurrentRoom(Room newRoom) {
+		this.currentRoom = newRoom;
+	}
+
+	protected Room getCurrentRoom() {
+		return this.currentRoom;
+	}
+
+	protected void lookAround(Room room) {
 		Item[] roomItems = room.showItems();
 		System.out.print("You are standing in a " + room.size + " " + room.name + ". \n");
-		
-		if (roomItems.length > 0) {
+
+		if (roomItems != null && roomItems.length > 0) {
 			System.out.print("You see: ");
-			//print out all items in the room
-			for(int i = 0; i < roomItems.length; i++) {
+			// print out all items in the room
+			for (int i = 0; i < roomItems.length; i++) {
 				System.out.print(roomItems[i].name);
-				//don't print comma for last item
+				// don't print comma for last item
 				if (i != roomItems.length - 1) {
 					System.out.print(", ");
 				}
-			}			
-			
+			}
+
 		} else {
 			System.out.print("You don't see anything of importance.");
 		}
-	
+
 		System.out.print("\n");
 	}
-	
-	public void checkInventory() {
+
+	protected void checkInventory() {
 		String leftItem = "nothing";
 		String rightItem = "nothing";
 
 		if (inventory[0] != null) {
 			leftItem = inventory[0].name;
 		}
-		
+
 		if (inventory[1] != null) {
 			rightItem = inventory[1].name;
 		}
-		
+
 		System.out.print("Left Hand: " + leftItem + "\n");
 		System.out.print("Right Hand: " + rightItem + "\n");
 
 	}
-	
-	public Item[] showInventory() {
+
+	protected Item[] showInventory() {
 		return inventory;
 	}
-	
-	public void addToInventory(Item itemToAdd, int handIndex, Room room) {
-		//check if the inventory spot is empty
+
+	protected void addToInventory(Item itemToAdd, int handIndex, Room room) {
+		// check if the inventory spot is empty
 		if (inventory[handIndex] != null) {
-			//if it is not, drop the item first
+			// if it is not, drop the item first
 			dropItem(room, inventory[handIndex]);
 		}
-		
-		
-		//add item to inventory
+
+		// add item to inventory
 		this.inventory[handIndex] = itemToAdd;
 	}
-	
+
 	private void removeItemFromInv(int invIndex) {
 		inventory[invIndex] = null;
 	}
-	
-	public void setName(String name) {
+
+	protected void setName(String name) {
 		this.name = name;
 		System.out.print("Nice to meet you, " + this.name + "\n");
 	}
-	
-	public String getName( ) {
+
+	protected String getName() {
 		return this.name;
 	}
 
-	public boolean checkForItemInHand(String itemName) {
+	protected boolean checkForItemInHand(String itemName) {
 		if (inventory[0] != null && itemName.toLowerCase().equals(inventory[0].name.toLowerCase())) {
 			return true;
 		}
@@ -83,6 +91,7 @@ public class Player {
 	}
 
 	protected Item returnIfItemInHand(String currItemName) {
+
 		for(Item checkItem : inventory) {
 			if (checkItem != null && currItemName.equals(checkItem.name)) {
 				return checkItem;
@@ -100,32 +109,30 @@ public class Player {
 		}
 		return -1;
 	}
-	
-	
-	public void dropItem(Room room, Item itemToDrop) {
-		//check which hand it is in
+
+	protected void dropItem(Room room, Item itemToDrop) {
+		// check which hand it is in
 		int handIndex = checkWhichHandItemIsIn(itemToDrop);
-		
-		//remove the item from the hand
+
+		// remove the item from the hand
 		if (handIndex != -1) {
 			removeItemFromInv(handIndex);
 		} else {
-			//handle error if item was not found in the inventory
-			System.out.print("An error has occurred when trying to drop the item.");
+			// handle error if item was not found in the inventory
+			System.out.print("An error has occurred when trying to drop the item. \n");
 			return;
 		}
-		
-		//add the item to the room
+
+		// add the item to the room
 		room.addItem(itemToDrop);
-		
+
 		String handString = "right";
 		if (handIndex == 0) {
 			handString = "left";
 		}
-		
+
 		System.out.print("You drop the " + itemToDrop.name + " that was in your " + handString + " hand. \n");
-		
+
 	}
-	
-	
+
 }

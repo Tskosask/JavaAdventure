@@ -56,12 +56,13 @@ public class Actions {
 				Item currItem = room.returnIfItemInRoom(itemName);
 				
 				//if the item is in the room then you can grab it
-				if (currItem != null) {
-					//check if it is a window to determine what grab method to use
-					if (currItem.getClass() == Item.class) {
-						currItem.grab(player, room, userInput);
-					} else {
+				if (currItem != null) {					//check the class to determine what grab method to use
+					if (currItem.getClass() == Window.class) {
 						currItem.grab();
+					} else if (currItem.getClass() == Door.class){
+						currItem.grab(player);
+					} else {
+						currItem.grab(player, room, userInput);
 					}
 				} else if (player.checkForItemInHand(itemName)) {
 					//check if the user is already holding the item

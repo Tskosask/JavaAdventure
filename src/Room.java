@@ -5,14 +5,17 @@ public class Room {
 	protected String size = randomRoomSize();
 	protected Item[] items;
 	
-	public Room(String roomId, String roomName, Item[] roomItems) {
+	public Room(String roomId, String roomName) {
 		this.roomId = roomId;
 		this.name = roomName;
-		this.items = roomItems;
 	}
 
 	public Item[] showItems() {
 		return items;
+		
+	}	
+	public void setRoomItems(Item[] roomItems) {
+		this.items = roomItems;
 	}
 
 	private String randomRoomSize() {
@@ -44,12 +47,11 @@ public class Room {
 		items = arrayCopy;
 	}
 	
-	
 	protected Item returnIfItemInRoom(String currItemName) {
 		//Check here to see if the item is in the room			
 		if (items.length > 0) {
 			for(Item checkItem : items) {
-				if (currItemName.equals(checkItem.name)) {
+				if (currItemName.toLowerCase().equals(checkItem.name.toLowerCase())) {
 					return checkItem;
 				}
 			}	
