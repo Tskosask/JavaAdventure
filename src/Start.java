@@ -36,6 +36,7 @@ public class Start {
 	
 	private static void whatToDo(Player player, Room room, Scanner userInput){
 		
+		System.out.print("\n");
 		System.out.print("What would you like to do, " + player.getName() + "?\n");
 		System.out.print("Options:");
 

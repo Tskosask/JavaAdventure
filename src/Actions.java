@@ -18,12 +18,14 @@ public class Actions {
 		Action drop = new Action("Drop", "Drop [Item]", dStrArr, "The drop action removes an item from your hand. You must be holding the item. Ex. \"Drop key\"");
 		String[] tStrArr = {"Talk"};
 		Action talk = new Action("Talk", "Talk [Item]", tStrArr, "You can communicate with some items/beings with this action. Ex. \"Talk Marvin\"");
+		String[] uStrArr = {"Use"};
+		Action use = new Action("Use", "Use [Item] [Item]", uStrArr, "Use will allow you to use an item in your hand with an item in the room. Ex. \"Use key bedroomDoor\"");
 		String[] hStrArr = {"Help"};
 		Action help = new Action("Help", "Help [Action]", hStrArr, "Asking for help with the help action is a little meta isn't it? This will show you the help text for an action. Ex. \"Help Grab\"");
 		String[] qStrArr = {"Quit", "Exit", "Stop"};
 		Action quit = new Action("Quit", "Quit", qStrArr, "This will quit the adventure.");
 	
-		Action[] tmpActions = {lookAround, checkInv, examine, grab, drop, talk, help, quit};
+		Action[] tmpActions = {lookAround, checkInv, examine, grab, drop, talk, use, help, quit};
 		actions = tmpActions;
 		return actions;
 	}
@@ -42,7 +44,7 @@ public class Actions {
 					System.out.print("That is not a valid action that I can help with. \n");
 				}
 			} else if (tmpActionId.equals("EXAMINE")) {
-				Item currItem = returnIfItemNearby(room, player, secondPhrase);
+				Item currItem = returnIfItemNearby(room, player, secondPhrase.replace(" ", ""));
 					
 				//if the item is in the room then you can examine it
 				if (currItem != null) {
@@ -52,7 +54,7 @@ public class Actions {
 				}
 				
 			} else if (tmpActionId.equals("GRAB")){
-				String itemName = secondPhrase;
+				String itemName = secondPhrase.replace(" ", "");
 				Item currItem = room.returnIfItemInRoom(itemName);
 				
 				//if the item is in the room then you can grab it
@@ -83,7 +85,7 @@ public class Actions {
 				}
 				
 			} else if (tmpActionId.equals("TALK")) {
-				Item currItem = returnIfItemNearby(room, player, secondPhrase);
+				Item currItem = returnIfItemNearby(room, player, secondPhrase.replace(" ", ""));
 				
 				//if the item is in the room then you can examine it
 				if (currItem != null) {
@@ -91,6 +93,25 @@ public class Actions {
 				} else {
 					System.out.print("You do not see that item. \n");
 				}
+				
+			} else if (tmpActionId.equals("USE")) {
+				String stringToSplit = secondPhrase;
+				//check if the phrase has a space indicating more than one item
+				int spaceIndex = stringToSplit.indexOf(" ");
+				//if there is no space found, error
+				if (spaceIndex != -1) {
+					//split the second phrase into two words at the space
+					String partOne = stringToSplit.substring(0, spaceIndex).trim();
+					//the replace on this line would allow something like "use key bedroom door"
+					String partTwo = stringToSplit.substring(spaceIndex).trim().replace(" ", "");
+					//Check if you can use the two items
+					//Handle custom use interactions
+					handleUse(partOne, partTwo, player);
+					
+				} else {	
+					System.out.print("The Use action must specify two items. \n");
+				} 
+				
 			} else {
 				System.out.print("Input was not recognized. \n");
 			}
@@ -114,6 +135,88 @@ public class Actions {
 		}
 	}
 	
+	private void handleUse(String partOne, String partTwo, Player player) {
+		//check if one of the items is a door
+		//handle trying to unlock a door
+		Item itemOne = returnIfItemNearby(player.getCurrentRoom(), player, partOne);
+		Item itemTwo = returnIfItemNearby(player.getCurrentRoom(), player, partTwo);
+		
+		
+		//if the item is not nearby, show errors
+		if (itemOne == null || itemTwo == null) {
+			if (itemOne == null) {
+				System.out.print("You do not see the " + partOne + "\n");
+			}
+			if (itemTwo == null) {
+				System.out.print("You do not see the " + partTwo + "\n");
+			}
+			
+		} else { //else continue handling use
+			//At least one of the items must be in your hand
+			//check if one or both are in your hands
+			boolean itemOneInHand = player.checkForItemInHand(itemOne.name);
+			boolean itemTwoInHand = player.checkForItemInHand(itemTwo.name);
+
+			//if neither item is in your hand, error
+			if (!itemOneInHand && !itemTwoInHand) {
+				System.out.print("You must be holding at least one item you are trying to use. \n");
+			} else {
+							
+				boolean itemOneIsDoor = (itemOne.getClass() == Door.class);
+				boolean itemTwoIsDoor = (itemTwo.getClass() == Door.class);
+	
+				//if one item is in hand and the other is a door then try to unlock the door
+				if ((itemOneInHand || itemTwoInHand) && (itemOneIsDoor || itemTwoIsDoor)) {
+					//try to use the item in the hand to unlock the door
+					if (itemOneInHand) {
+						((Door) itemTwo).toggleDoorLock(itemOne);
+					} else {
+						((Door) itemOne).toggleDoorLock(itemTwo);
+					}
+					
+				} else { //assume all other item classes
+					if (itemOne == itemTwo) {
+						System.out.print("You cannot use an item on itself. It just doesn't work like that. \n");
+					}
+					
+					//custom use interactions
+					
+					//cat interactions
+					if (checkEitherItem(itemOne, itemTwo, "Lena")) {
+						if (checkEitherItem(itemOne, itemTwo, "screwdriver") || checkEitherItem(itemOne, itemTwo, "spatula") || checkEitherItem(itemOne, itemTwo, "pencil")) {
+							System.out.print("That wouldn't be very nice... \n");
+						} else if (checkEitherItem(itemOne, itemTwo, "toy")) {
+							System.out.print("You use the toy on the cat. Lena plays with it for a second, but then gets bored. \n");
+						} else if (checkEitherItem(itemOne, itemTwo, "hairspray")) {
+							System.out.print("You use the hairspray on the cat. You manage to give it a full body mohawk, but you can tell the cat is not impressed. \n");
+						} else {
+							System.out.print("You use the " + itemOne.name + " on the " + itemTwo.name + ", but the cat is not interested. \n");
+						}
+					//magic wand interactions
+					} else if (checkEitherItem(itemOne, itemTwo, "magicWand")) { 
+						System.out.print("You use the " + itemOne.name + " on the " + itemTwo.name + ", and the room fills with a glow coming from the wand. The light subsides, but nothing has changed. \n");
+					} else {
+						//handle generic interaction
+						System.out.print("You use the " + itemOne.name + " on the " + itemTwo.name + ", but nothing interesting happens. \n");
+					}
+					
+					
+
+					
+				}		
+			}	
+		}
+	}
+	
+	private boolean checkEitherItem(Item itemOne, Item itemTwo, String checkItemId) {
+		if (itemOne.itemId == checkItemId || itemTwo.itemId == checkItemId) {
+			return true;
+		} else {
+			return false;
+		}
+			
+	}
+
 	private static Item returnIfItemNearby(Room room, Player player, String currItemName) {
 		//look for the item in the room
 		Item itemFound = room.returnIfItemInRoom(currItemName);
