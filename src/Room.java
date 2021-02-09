@@ -12,8 +12,8 @@ public class Room {
 
 	public Item[] showItems() {
 		return items;
-	}
-	
+		
+	}	
 	public void setRoomItems(Item[] roomItems) {
 		this.items = roomItems;
 	}

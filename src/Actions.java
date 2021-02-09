@@ -56,8 +56,7 @@ public class Actions {
 				Item currItem = room.returnIfItemInRoom(itemName);
 				
 				//if the item is in the room then you can grab it
-				if (currItem != null) {
-					//check the class to determine what grab method to use
+				if (currItem != null) {					//check the class to determine what grab method to use
 					if (currItem.getClass() == Window.class) {
 						currItem.grab();
 					} else if (currItem.getClass() == Door.class){
