@@ -1,14 +1,18 @@
 import java.util.Scanner;
 
 public class Item {
-	String name;
-	boolean canPickUp;
-	String examineText;
+	protected String itemId;
+	protected String name;
+	protected boolean canPickUp;
+	protected String examineText;
+	protected String grabText;
 	
-	public Item(String name, boolean canPickUp, String examineText) {
+	public Item(String itemId, String name, boolean canPickUp, String examineText, String grabText) {
+		this.itemId = itemId;
 		this.name = name;
 		this.canPickUp = canPickUp;
 		this.examineText = examineText;
+		this.grabText = grabText;
 	}
 
 	protected void examine() {
@@ -39,16 +43,24 @@ public class Item {
 			}
 			
 		} else {
-			System.out.print("You grab the " + this.name + ", but nothing interesting happens. \n");
+			grab();
 		}
 	}
 
 	protected void grab() {
-		System.out.print("You grab the " + this.name + ", but nothing interesting happens. \n");
+		if (grabText != null) {
+			System.out.print(grabText + " \n");
+		} else {
+			System.out.print("You grab the " + this.name + ", but nothing interesting happens. \n");
+		}
 	}
 
 	protected void talk() {
 		System.out.print("You look like a crazy person trying to talk to the " + this.name + ". \n" );
+	}
+
+	protected void grab(Player player) {
+		System.out.print("You grab the " + this.name + ", but nothing interesting happens. \n");
 	}
 	
 	
