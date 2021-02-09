@@ -18,21 +18,15 @@ public class Player {
 		System.out.print("You are standing in a " + room.size + " " + room.name + ". \n");
 
 		if (roomItems != null && roomItems.length > 0) {
-			System.out.print("You see: ");
+			System.out.print("You see: \n");
 			// print out all items in the room
 			for (int i = 0; i < roomItems.length; i++) {
-				System.out.print(roomItems[i].name);
-				// don't print comma for last item
-				if (i != roomItems.length - 1) {
-					System.out.print(", ");
-				}
+				System.out.print(roomItems[i].name + "\n");
 			}
 
 		} else {
-			System.out.print("You don't see anything of importance.");
+			System.out.print("You don't see anything of importance. \n");
 		}
-
-		System.out.print("\n");
 	}
 
 	protected void checkInventory() {
@@ -93,7 +87,7 @@ public class Player {
 	protected Item returnIfItemInHand(String currItemName) {
 
 		for(Item checkItem : inventory) {
-			if (checkItem != null && currItemName.equals(checkItem.name)) {
+			if (checkItem != null && currItemName.toLowerCase().equals(checkItem.name.toLowerCase())) {
 				return checkItem;
 			}
 		}	

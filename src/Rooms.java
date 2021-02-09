@@ -36,7 +36,7 @@ public class Rooms {
 		Window livingRoomWindow = new Window("livingRoomWindow", "window", false);
 		
 		//kitchen
-		Item fridge = new Item("fridge", "fridge", false, "A calendar and some old Chistmas cards hang on the front of it. When are you supposed to throw those out?", "It opens and you see it filled with healthy fruits and vegatables ... And a pizza box.");
+		Item fridge = new Item("fridge", "fridge", false, "A calendar and some old Chistmas cards hang on the front of it. When are you supposed to throw those out?", "It opens and you see it filled with healthy fruits and vegatables ... And a pizza box. You find nothing of use.");
 		Item kitchenSink = new Item("kitchensink", "sink", false, "An elegant farmhouse style sink. It is spotless.", "Now is as good a time as any to wash your hands right?");
 		Item oven = new Item("oven", "oven", false, "Perfect for warming up the pizza in the fridge.", null);
 		Item coffeePot = new Item("coffeePot", "coffeePot", false, "It is a black coffee pot filled to the brim with hot coffee.", "Nothing like a good cup of coffee. Especially when you are locked in your own house. \nYou pour yourself a cup.");
@@ -67,14 +67,14 @@ public class Rooms {
 		Room[] bathroomDoorRooms = {kitchen, bathroom};
 		Door bathroomDoor = new Door("bathroomDoor", "bathroomDoor", "It is a small door. The hinges and handle are very rusty. Hope it isn't an emergency.", bathroomDoorRooms, wd40);
 		Room[] frontRoomDoorRooms = {livingRoom, frontRoom};
-		Door frontRoomDoor = new Door("frontRoomDoor", "frontRoomDoor", "It is a beautifully crafted door, but someone has nailed board across it.", frontRoomDoorRooms, crowbar);
+		Door frontRoomDoor = new Door("frontRoomDoor", "frontRoomDoor", "It is a beautifully crafted door, but someone has nailed a board across it.", frontRoomDoorRooms, crowbar);
 		Room[] outsideDoorRooms = {frontRoom, outside};
 		Door outsideDoor = new Door("outsideDoor", "outsideDoor", "Through a window in the door you can see outside. This is the way out, but there is something magical about it.", outsideDoorRooms, magicWand);
 		
 		
 		//put items in the rooms
 		
-		Item[] bedroomItems = { bedroomDoor, screwdriver, bed, bedroomWindow, brassKey, cat, eyedrops };
+		Item[] bedroomItems = { bedroomDoor, screwdriver, bed, bedroomWindow, brassKey, cat, eyedrops};
 		bedroom.setRoomItems(bedroomItems);
 		
 		Item[] officeItems = { officeDoor, officeWindow, crowbar, pencil, desk };
